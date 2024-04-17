@@ -39,11 +39,20 @@ exports.updateUserById = async(requestObject,responseObject)=>{
     const {body} = requestObject
     try {
         const updatedUser = await User.findByIdAndUpdate(id, body)
-        console.log(updatedUser)
-        if (!updatedUser) {
-            return responseObject.status(404).send("User not found");
-        }
         responseObject.status(200).send(updatedUser);
+    } catch (error) {
+        responseObject.status(500).send(error.message)
+    }
+}
+
+
+exports.updateUserDetailsById=async(requestObject,responseObject)=>{
+    const {params} = requestObject
+    const {id} = params
+    const {body} = requestObject
+    try {
+        const updatedUserDetails = await User.findByIdAndUpdate(id, body)
+        responseObject.status(200).send(updatedUserDetails);
     } catch (error) {
         responseObject.status(500).send(error.message)
     }

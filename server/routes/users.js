@@ -12,6 +12,10 @@ router.get("/getAllRegisteredUsers",UsersController.getAllRegisteredUsers);
 // update user by id
 router.put("/updateUserById/:id",UsersController.updateUserById)
 
+// update some details of user by id
+router.patch("/updateUserDetailsById/:id",UsersController.updateUserDetailsById)
+
+
 // login
 // router.post("/login",UsersController.registerUser);
 
