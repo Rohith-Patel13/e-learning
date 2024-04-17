@@ -3,7 +3,7 @@ const User = require("../models/users");
 require("dotenv").config()
 
 
-exports.registerUser = async (requestObject,responseObject)=>{
+exports.registerUser = async(requestObject,responseObject)=>{
     console.log(requestObject.body,"In registerUser")
     const {name,email,password,profilePicture} = requestObject.body
     try{
@@ -17,6 +17,17 @@ exports.registerUser = async (requestObject,responseObject)=>{
         responseObject.status(201).send(newRegisteredUser)
 
     }catch(error){
+        responseObject.status(500).send(error.message)
+    }
+}
+
+
+exports.getAllRegisteredUsers = async(requestObject,responseObject)=>{
+    console.log("In getAllRegisteredUsers");
+    try {
+        const getAllRegisterUsers= await User.find()
+        responseObject.status(200).send(getAllRegisterUsers)
+    } catch (error) {
         responseObject.status(500).send(error.message)
     }
 }
