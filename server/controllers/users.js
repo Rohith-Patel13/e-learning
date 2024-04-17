@@ -32,3 +32,19 @@ exports.getAllRegisteredUsers = async(requestObject,responseObject)=>{
     }
 }
 
+exports.updateUserById = async(requestObject,responseObject)=>{
+    // console.log(requestObject,"updateUserById")
+    const {params} = requestObject
+    const {id} = params
+    const {body} = requestObject
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, body)
+        console.log(updatedUser)
+        if (!updatedUser) {
+            return responseObject.status(404).send("User not found");
+        }
+        responseObject.status(200).send(updatedUser);
+    } catch (error) {
+        responseObject.status(500).send(error.message)
+    }
+}
