@@ -15,8 +15,7 @@ router.put("/updateUserById/:id",UsersController.updateUserById)
 // update some details of user by id
 router.patch("/updateUserDetailsById/:id",UsersController.updateUserDetailsById)
 
-
 // login
-// router.post("/login",UsersController.registerUser);
+router.post("/login",UsersController.loginUser);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 const User = require("../models/users");
 require("dotenv").config()
 
@@ -53,6 +54,32 @@ exports.updateUserDetailsById=async(requestObject,responseObject)=>{
     try {
         const updatedUserDetails = await User.findByIdAndUpdate(id, body)
         responseObject.status(200).send(updatedUserDetails);
+    } catch (error) {
+        responseObject.status(500).send(error.message)
+    }
+}
+
+exports.loginUser=async(requestObject,responseObject)=>{
+    console.log(requestObject.body,"login")
+    const {email,password} = requestObject.body
+    try {
+        const existingUser = await User.findOne({email});
+        if(existingUser){
+            const comparePassword = await bcrypt.compare(password, existingUser.password);
+            if (!comparePassword) {
+                responseObject.status(400);
+                responseObject.send("Invalid password");
+            }else{
+                const payload = {
+                    name: existingUser.name,
+                    user_id: existingUser._id,
+                };
+                const jwtCreatedToken = await jwt.sign(payload, process.env.SECRET_STRING);
+                responseObject.send({
+                    jwtToken: jwtCreatedToken,
+                });
+            }
+        }
     } catch (error) {
         responseObject.status(500).send(error.message)
     }
