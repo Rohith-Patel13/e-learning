@@ -14,10 +14,12 @@ const userSchema = new Schema({
             message:(props)=>`${props.value} is not a valid email`
         }
     },
-    password:{type:String,required:[true,"password must not be empty"]}  
+    password:{type:String,required:[true,"password must not be empty"]},
+    profilePicture: { type: String,required:[true,"profile picture must not be empty"] } 
 },{timestamps:true})
 
 // creating a model
 const User = model("User",userSchema);
 
 module.exports = User;
+
