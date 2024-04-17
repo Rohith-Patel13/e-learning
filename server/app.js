@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose")
+const UserRoutes = require("./routes/users")
 
 app.use(express.json());
 
@@ -17,3 +18,4 @@ app.listen(9090,()=>{
             ))
 });
 
+app.use("/api/users",UserRoutes);
