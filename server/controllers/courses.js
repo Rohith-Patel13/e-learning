@@ -40,8 +40,10 @@ exports.getCoursesWithPagination = async (requestObject, responseObject) => {
 
 // SUPER ADMIN CRUD OPERATIONS
 exports.createCourse=async(requestObject,responseObject)=>{
+  // console.log(requestObject.body)
   try {
-    const createdCourse = COURSE.create(requestObject.body)
+    const createdCourse = await COURSE.create(requestObject.body)
+    // console.log(createdCourse)
     responseObject.status(201).send(createdCourse)
   } catch (error) {
     console.log(error.message);

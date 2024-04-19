@@ -4,7 +4,7 @@ require("dotenv").config();
 
 //middleware to authenticate the JWT token:
 exports.authenticateJwtToken = (requestObject, responseObject, next) => {
-    console.log(requestObject,"requestObject")
+    // console.log(requestObject,"requestObject")
     /*
       example:
       let options = {
@@ -51,10 +51,10 @@ exports.authenticateJwtToken = (requestObject, responseObject, next) => {
           responseObject.status(401);
           responseObject.send("Verification of JWT Token failed");
         } else {
-          console.log(payload);
+          console.log(payload,"payload at authenticationJwtToken");
   
           requestObject.name = payload.name;
-          requestObject.user_id = payload._id;
+          requestObject.user_id = payload.user_id;
           next();
         }
       });
