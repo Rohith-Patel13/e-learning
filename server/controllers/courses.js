@@ -50,3 +50,18 @@ exports.createCourse=async(requestObject,responseObject)=>{
     responseObject.status(500).send({ errorMessage: "Server error" });    
   }
 }
+
+exports.deleteCourse = async (requestObject, responseObject) => {
+  try {
+      const courseId = requestObject.params.id;
+      const deletedCourse = await COURSE.findByIdAndDelete(courseId);
+      if (!deletedCourse) {
+          responseObject.status(404).send({ errorMessage: "Course not found" });
+      } else {
+          responseObject.status(200).send({ message: "Course deleted successfully" });
+      }
+  } catch (error) {
+      console.log(error.message);
+      responseObject.status(500).send({ errorMessage: "Server error" });
+  }
+};

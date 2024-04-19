@@ -68,7 +68,6 @@ exports.authenticateJwtToken = (requestObject, responseObject, next) => {
 
 exports.verifyAdminOrNot = (...role)=>{
     // console.log(role,"role")
-   
     return (
         (requestObject,responseObject,next)=>{
             // console.log(requestObject,"in verifyAdmin")
