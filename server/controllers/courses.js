@@ -18,7 +18,7 @@ exports.getAllCourses = async (requestObject, responseObject) => {
 
 
 
-
+/*
 exports.getCoursesWithPagination = async (requestObject, responseObject) => {
   try {
     const { category, level, page = 1, limit = 10 } = requestObject.query;
@@ -36,7 +36,7 @@ exports.getCoursesWithPagination = async (requestObject, responseObject) => {
     responseObject.status(500).send({ errorMessage: "Server error" });
   }
 };
-
+*/
 
 // SUPER ADMIN CRUD OPERATIONS
 exports.createCourse=async(requestObject,responseObject)=>{

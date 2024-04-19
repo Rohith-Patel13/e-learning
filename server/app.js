@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose")
 const UserRoutes = require("./routes/users")
 const CoursesRoutes = require("./routes/courses")
-
+const enrollmentRoutes = require('./routes/enrollment');
 
 app.use(express.json());
 
@@ -22,3 +22,4 @@ app.listen(9090,()=>{
 
 app.use("/api/users",UserRoutes);
 app.use("/api/courses",CoursesRoutes);
+app.use("/api/enrollment", enrollmentRoutes);

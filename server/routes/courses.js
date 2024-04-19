@@ -7,6 +7,7 @@ const CoursesControllers=require("../controllers/courses")
 
 router.get("/getAllCourses",CoursesControllers.getAllCourses);
 
+// router.get("/getCoursesWithPagination", CoursesControllers.getCoursesWithPagination);
 
 
 // create a course
