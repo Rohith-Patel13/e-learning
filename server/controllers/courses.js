@@ -51,6 +51,39 @@ exports.createCourse=async(requestObject,responseObject)=>{
   }
 }
 
+exports.getCourseById = async (requestObject, responseObject) => {
+  try {
+      const courseId = requestObject.params.id;
+      const course = await COURSE.findById(courseId);
+      if (!course) {
+          responseObject.status(404).send({ errorMessage: "Course not found" });
+      } else {
+          responseObject.status(200).send(course);
+      }
+  } catch (error) {
+      console.log(error.message);
+      responseObject.status(500).send({ errorMessage: "Server error" });
+  }
+};
+
+exports.updateCourse = async (requestObject, responseObject) => {
+  try {
+      const courseId = requestObject.params.id;
+      const updates = requestObject.body;
+      const updatedCourse = await COURSE.findByIdAndUpdate(courseId, updates);
+      if (!updatedCourse) {
+          responseObject.status(404).send({ errorMessage: "Course not found" });
+      } else {
+          responseObject.status(200).send(updatedCourse);
+      }
+  } catch (error) {
+      console.log(error.message);
+      responseObject.status(500).send({ errorMessage: "Server error" });
+  }
+};
+
+
+
 exports.deleteCourse = async (requestObject, responseObject) => {
   try {
       const courseId = requestObject.params.id;
