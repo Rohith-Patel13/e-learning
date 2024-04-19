@@ -15,11 +15,15 @@ const userSchema = new Schema({
         }
     },
     password:{type:String,required:[true,"password must not be empty"]},
-    profilePicture: { type: String,required:[true,"profile picture must not be empty"] } 
+    profilePicture: { type: String,required:[true,"profile picture must not be empty"] },
+    role: {
+        type: String,
+        enum: ['user', 'superadmin'],
+        default: 'user'
+    }
 },{timestamps:true})
 
 // creating a model
 const User = model("User",userSchema);
 
 module.exports = User;
-
