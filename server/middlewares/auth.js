@@ -73,8 +73,10 @@ exports.verifyAdminOrNot = (...role)=>{
         (requestObject,responseObject,next)=>{
             // console.log(requestObject,"in verifyAdmin")
             if(!role.includes(requestObject.role)){
-                responseObject.status(403).send({errorMessage:"You don't have permission to perform this operation"})
+                // console.log("don't execute 'success' to next middleware")
+                return responseObject.status(403).send({errorMessage:"You don't have permission to perform this operation"})
             }
+            // console.log("success go to next middleware")
             next()
         }
     )
