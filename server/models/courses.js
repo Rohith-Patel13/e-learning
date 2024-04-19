@@ -17,7 +17,7 @@ const courseSchema = new Schema({
     popularity:{
         type:Number,required:true
     },
-});
+},{timestamps:true});
 
 const COURSE = model("Course",courseSchema)
 
