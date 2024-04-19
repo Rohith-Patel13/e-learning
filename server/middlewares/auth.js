@@ -55,8 +55,27 @@ exports.authenticateJwtToken = (requestObject, responseObject, next) => {
   
           requestObject.name = payload.name;
           requestObject.user_id = payload.user_id;
+          requestObject.name=payload.name;
+          requestObject.email=payload.email;
+          requestObject.role=payload.role;
+          requestObject.profilePicture=payload.profilePicture;
           next();
         }
       });
     }
 };
+
+
+exports.verifyAdminOrNot = (...role)=>{
+    // console.log(role,"role")
+   
+    return (
+        (requestObject,responseObject,next)=>{
+            // console.log(requestObject,"in verifyAdmin")
+            if(!role.includes(requestObject.role)){
+                responseObject.status(403).send({errorMessage:"You don't have permission to perform this operation"})
+            }
+            next()
+        }
+    )
+}

@@ -7,7 +7,9 @@ const CoursesControllers=require("../controllers/courses")
 
 router.get("/getAllCourses",CoursesControllers.getAllCourses);
 
-router.post("/adminCreateCourse",middleware.authenticateJwtToken,CoursesControllers.createCourse)
+router.post("/adminCreateCourse",
+middleware.authenticateJwtToken,middleware.verifyAdminOrNot("superadmin"),
+CoursesControllers.createCourse)
 
 
 module.exports=router

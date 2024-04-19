@@ -73,6 +73,10 @@ exports.loginUser=async(requestObject,responseObject)=>{
                 const payload = {
                     name: existingUser.name,
                     user_id: existingUser._id,
+                    email:existingUser.email,
+                    password:existingUser.password,
+                    profilePicture:existingUser.profilePicture,
+                    role:existingUser.role
                 };
                 const jwtCreatedToken = await jwt.sign(payload, process.env.SECRET_STRING);
                 responseObject.send({
