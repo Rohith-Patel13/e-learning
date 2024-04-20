@@ -1,9 +1,6 @@
 const COURSE = require('../models/courses');
 
 
-
-
-
 // SORTING, FILTERING, PAGINATION
 exports.getAllCourses=async(requestObject,responseObject)=>{
   console.log(requestObject.query);

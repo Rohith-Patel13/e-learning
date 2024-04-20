@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+
 const User = require("../models/users");
+const sendEmailId = require("../utils/sendEmail");
 require("dotenv").config()
+
 
 
 exports.registerUser = async(requestObject,responseObject)=>{
@@ -15,6 +18,11 @@ exports.registerUser = async(requestObject,responseObject)=>{
         const newRegisteredUser = await User.create({
             name,email,password:encryptedPassoword,profilePicture,role
         })
+        if(newRegisteredUser){
+            const subject = "Registration Confirmed for E-learning"
+            const text="Thankyou for registering E-learning platform"
+            await sendEmailId(email,subject,text)
+        }
         responseObject.status(201).send(newRegisteredUser)
 
     }catch(error){

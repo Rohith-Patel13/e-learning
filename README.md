@@ -1,4 +1,6 @@
 
+# Documentation of using Resend.com
+https://resend.com/docs/send-with-nodejs
 
 
 # Sample course data
