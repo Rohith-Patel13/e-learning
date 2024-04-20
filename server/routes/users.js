@@ -25,6 +25,8 @@ router.post("/fogot-password",UsersController.forgotPassword)
 // reset-password
 router.get("/reset-password/:id/:token",UsersController.resetPassword)
 
+// resetPasswordSend 
+router.post("/reset-password/:id/:token",UsersController.resetPasswordSend)
 
 
 module.exports = router;

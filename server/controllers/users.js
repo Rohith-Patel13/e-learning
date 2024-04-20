@@ -125,17 +125,58 @@ exports.forgotPassword=async(requestObject,responseObject)=>{
 
 exports.resetPassword=async(requestObject,responseObject)=>{
     const {id,token} = requestObject.params
-
     try{
         const oldUser = await User.findOne({_id:id})
         if(!oldUser){
             return responseObject.status(400).send("User not exists")
         }
         const secret = process.env.JWT_SECRET+oldUser.password
-        const verify = jwt.verify(token,secret)
+        const verify = jwt.verify(token,secret, async (error, payload) =>{
+            if(error){
+                console.log(error.message)  
+                responseObject.status(401);
+                responseObject.send(error.message);
+            }else{
+                console.log(payload)           
+            } 
+        })
         responseObject.render("index",{email:verify.email})
+    } catch (error) {
+        console.log(error.message)
+        responseObject.status(500).send(error.message)
+    }
+}
 
-        
+
+exports.resetPasswordSend=async(requestObject,responseObject)=>{
+    const {id,token} = requestObject.params
+    const {password} = requestObject.body
+    console.log(password)
+    try{
+        const oldUser = await User.findOne({_id:id})
+        if(!oldUser){
+            return responseObject.status(400).send("User not exists")
+        }
+        const secret = process.env.JWT_SECRET+oldUser.password
+        const verify = jwt.verify(token,secret, async (error, payload) =>{
+            if(error){
+                console.log(error.message)  
+                responseObject.status(401);
+                responseObject.send(error.message);
+            }else{
+                console.log(payload)           
+            } 
+        })
+        const encryptedPassoword = await bcrypt.hash(password,Number(process.env.SALT))
+        const updatedPassword = await User.updateOne({
+            _id:id
+        },{
+            $set:{
+                password:encryptedPassoword
+            }
+        })
+        console.log(updatedPassword)
+        responseObject.send("Password Updated")
     } catch (error) {
         console.log(error.message)
         responseObject.status(500).send(error.message)

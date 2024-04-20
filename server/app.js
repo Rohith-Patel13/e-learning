@@ -7,7 +7,7 @@ const enrollmentRoutes = require('./routes/enrollment');
 
 app.use(express.json());
 app.set("view engine","ejs")
-
+app.use(express.urlencoded({extended:false}))
 
 require("dotenv").config()
 
