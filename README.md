@@ -1,5 +1,42 @@
 
 
+```sh
+git clone https://github.com/Rohith-Patel13/e-learning.git
+```
+
+```sh
+cd server 
+```
+
+```sh
+npm install
+```
+
+```sh
+touch .env
+```
+
+# Add below code in .env file
+```sh
+MONGODB_URI = mongodb+srv://<username>:<password>@cluster0.vbr0tsa.mongodb.net/<databse_name>
+
+SALT = 10
+
+SECRET_STRING = MY_SECRET_TOKEN_STRING
+
+HOST = smtp.gmail.com
+SERVICE = gmail
+EMAIL_PORT = 587
+SECURE = true 
+USER = your email address
+PASS = generate pass key from provided email
+
+BASE_URL = http://localhost:9090/api/users
+
+JWT_SECRET = MY_PASSWORD_RESET
+
+```
+
 
 # Sample course data
 ```sh
