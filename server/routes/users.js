@@ -21,4 +21,10 @@ router.post("/login",UsersController.loginUser);
 // forgot password
 router.post("/fogot-password",UsersController.forgotPassword)
 
+
+// reset-password
+router.get("/reset-password/:id/:token",UsersController.resetPassword)
+
+
+
 module.exports = router;

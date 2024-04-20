@@ -6,6 +6,8 @@ const CoursesRoutes = require("./routes/courses")
 const enrollmentRoutes = require('./routes/enrollment');
 
 app.use(express.json());
+app.set("view engine","ejs")
+
 
 require("dotenv").config()
 

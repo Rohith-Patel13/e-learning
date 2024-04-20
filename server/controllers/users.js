@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const crypto = require('crypto')
+// const crypto = require('crypto')
 const User = require("../models/users");
 const sendEmailId = require("../utils/sendEmail");
 require("dotenv").config()
@@ -122,14 +122,19 @@ exports.forgotPassword=async(requestObject,responseObject)=>{
 }
 
 
+
 exports.resetPassword=async(requestObject,responseObject)=>{
     const {id,token} = requestObject.params
 
     try{
-        const oldUser = await User.findOne({email})
+        const oldUser = await User.findOne({_id:id})
         if(!oldUser){
             return responseObject.status(400).send("User not exists")
         }
+        const secret = process.env.JWT_SECRET+oldUser.password
+        const verify = jwt.verify(token,secret)
+        responseObject.render("index",{email:verify.email})
+
         
     } catch (error) {
         console.log(error.message)
