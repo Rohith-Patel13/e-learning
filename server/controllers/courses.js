@@ -4,6 +4,7 @@ const COURSE = require('../models/courses');
 
 
 
+// SORTING, FILTERING, PAGINATION
 exports.getAllCourses=async(requestObject,responseObject)=>{
   console.log(requestObject.query);
   try {
@@ -21,10 +22,24 @@ exports.getAllCourses=async(requestObject,responseObject)=>{
       const sortBy = requestObject.query.sort.split(",").join(" ");
       console.log(sortBy, "sortBy");
       query = query.sort(sortBy); // sort() is a mongoose sorting query method
+    }else{
+      query = query.sort("-createdAt") // by default sort 
+    }
+
+    // Pagination
+    const page = Number(requestObject.query.page) || 1
+    const limit = Number(requestObject.query.limit) || 10
+    const skip = (page-1)*limit
+    query = query.skip(skip).limit(limit)
+
+    if(requestObject.query.page){
+      const coursesCount = await COURSE.countDocuments()
+      if(skip>=coursesCount){
+        return responseObject.status(400).send("This page is not found")
+      }
     }
 
     const courseData = await query;
-    
     
     // let courseData = await COURSE.find(requestObject.query) // when we pass query strings which those fields doesnot present in course object then it will not work.
 
