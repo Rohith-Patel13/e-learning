@@ -2,39 +2,48 @@ const COURSE = require('../models/courses');
 
 
 
-exports.getAllCourses = async (requestObject, responseObject) => {
+
+
+exports.getAllCourses=async(requestObject,responseObject)=>{
+  console.log(requestObject.query);
   try {
-    const { category, level, popularity, page = 1, limit = 10 } = requestObject.query;
-    const query = {};
     
-    // Apply filters
-    if (category) query.category = category;
-    if (level) query.level = level;
-    
-    // Apply sorting based on popularity if specified
-    const sortOptions = {};
-    if (popularity) {
-      sortOptions.popularity = popularity === 'asc' ? 1 : -1;
+
+    const excludedFields = ["sort","limit","fields","page"]
+
+    const queryObj = {...requestObject.query}
+
+    excludedFields.forEach((el)=>{
+      delete queryObj[el]
+    })
+
+    // filtering data
+    let courseData = await COURSE.find(queryObj)
+
+
+    // sorting data
+    if (requestObject.query.sort) {
+      const sortBy = requestObject.query.sort;
+      console.log(sortBy, "sortBy");
+      // Create a comparison function based on sortBy
+      const compareFunction = (a, b) => {
+        if (a[sortBy] < b[sortBy]) return -1;
+        if (a[sortBy] > b[sortBy]) return 1;
+        return 0;
+      };
+      // Sorting data using the comparison function
+      courseData = courseData.sort(compareFunction);
     }
     
-    // Apply pagination
-    const options = {
-      page: parseInt(page, 10),
-      limit: parseInt(limit, 10),
-      sort: sortOptions
-    };
-
-    const courses = await COURSE.paginate(query, options);
-    responseObject.send(courses);
+    
+    // let courseData = await COURSE.find(requestObject.query) // when we pass query strings which those fields doesnot present in course object then it will not work.
+    
+    responseObject.status(200).send(courseData)
   } catch (error) {
     console.log(error.message);
     responseObject.status(500).send({ errorMessage: "Server error" });
   }
-};
-
-
-
-
+}
 
 
 
