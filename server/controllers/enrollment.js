@@ -33,7 +33,7 @@ exports.enrollCourse = async (requestObject, responseObject) => {
     responseObject.status(201).send({ message: 'Course enrolled successfully' });
   } catch (error) {
     console.log(error.message);
-    responseObject.status(500).send({ error: 'Server error' });
+    responseObject.status(500).send(error.message)
   }
 };
 
@@ -48,6 +48,6 @@ exports.getEnrolledCourses = async (requestObject, responseObject) => {
     responseObject.status(200).send(enrollments);
   } catch (error) {
     console.log(error.message);
-    responseObject.status(500).send({ error: 'Server error' });
+    responseObject.status(500).send(error.message)
   }
 };

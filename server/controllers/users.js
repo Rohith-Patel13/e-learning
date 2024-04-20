@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-
+const crypto = require('crypto')
 const User = require("../models/users");
 const sendEmailId = require("../utils/sendEmail");
 require("dotenv").config()
@@ -93,6 +93,46 @@ exports.loginUser=async(requestObject,responseObject)=>{
             }
         }
     } catch (error) {
+        responseObject.status(500).send(error.message)
+    }
+}
+
+exports.forgotPassword=async(requestObject,responseObject)=>{
+    const {email} = requestObject.body
+    try {
+        const oldUser = await User.findOne({email})
+        if(!oldUser){
+            return responseObject.status(400).send("User not exists")
+        }
+        const secret = process.env.JWT_SECRET+oldUser.password;
+        const token = jwt.sign({email:oldUser.email,id:oldUser._id},secret,{
+            expiresIn:"30m"
+        }) // link will expires in 30 minutes
+        const link = `${process.env.BASE_URL}/reset-password/${oldUser._id}/${token}`;
+        console.log(link)
+        if(link){
+            const subject = "Change Password By clicking Link"
+            await sendEmailId(email,subject,link)
+        }
+        responseObject.status(200).send(`Password Changing Link Sent to ${email}`)
+    } catch (error) {
+        console.log(error.message)
+        responseObject.status(500).send(error.message)
+    }
+}
+
+
+exports.resetPassword=async(requestObject,responseObject)=>{
+    const {id,token} = requestObject.params
+
+    try{
+        const oldUser = await User.findOne({email})
+        if(!oldUser){
+            return responseObject.status(400).send("User not exists")
+        }
+        
+    } catch (error) {
+        console.log(error.message)
         responseObject.status(500).send(error.message)
     }
 }

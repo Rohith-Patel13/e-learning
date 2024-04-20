@@ -43,7 +43,7 @@ exports.getAllCourses=async(requestObject,responseObject)=>{
     responseObject.status(200).send(courseData)
   } catch (error) {
     console.log(error.message);
-    responseObject.status(500).send({ errorMessage: "Server error" });
+    responseObject.status(500).send(error.message)
   }
 }
 
@@ -58,7 +58,7 @@ exports.createCourse=async(requestObject,responseObject)=>{
     responseObject.status(201).send(createdCourse)
   } catch (error) {
     console.log(error.message);
-    responseObject.status(500).send({ errorMessage: "Server error" });    
+    responseObject.status(500).send(error.message)    
   }
 }
 
@@ -73,7 +73,7 @@ exports.getCourseById = async (requestObject, responseObject) => {
       }
   } catch (error) {
       console.log(error.message);
-      responseObject.status(500).send({ errorMessage: "Server error" });
+      responseObject.status(500).send(error.message)
   }
 };
 
@@ -89,7 +89,7 @@ exports.updateCourse = async (requestObject, responseObject) => {
       }
   } catch (error) {
       console.log(error.message);
-      responseObject.status(500).send({ errorMessage: "Server error" });
+      responseObject.status(500).send(error.message)
   }
 };
 
@@ -106,6 +106,6 @@ exports.deleteCourse = async (requestObject, responseObject) => {
       }
   } catch (error) {
       console.log(error.message);
-      responseObject.status(500).send({ errorMessage: "Server error" });
+      responseObject.status(500).send(error.message)
   }
 };

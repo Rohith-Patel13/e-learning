@@ -18,4 +18,7 @@ router.patch("/updateUserDetailsById/:id",UsersController.updateUserDetailsById)
 // login
 router.post("/login",UsersController.loginUser);
 
+// forgot password
+router.post("/fogot-password",UsersController.forgotPassword)
+
 module.exports = router;
