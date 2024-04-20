@@ -7,37 +7,27 @@ const COURSE = require('../models/courses');
 exports.getAllCourses=async(requestObject,responseObject)=>{
   console.log(requestObject.query);
   try {
-    
-
     const excludedFields = ["sort","limit","fields","page"]
-
     const queryObj = {...requestObject.query}
-
     excludedFields.forEach((el)=>{
       delete queryObj[el]
     })
 
     // filtering data
-    let courseData = await COURSE.find(queryObj)
+    let query = COURSE.find(queryObj)
 
-
-    // sorting data
+    // sorting data (use "minus symbol" if you want in descending order)
     if (requestObject.query.sort) {
-      const sortBy = requestObject.query.sort;
+      const sortBy = requestObject.query.sort.split(",").join(" ");
       console.log(sortBy, "sortBy");
-      // Create a comparison function based on sortBy
-      const compareFunction = (a, b) => {
-        if (a[sortBy] < b[sortBy]) return -1;
-        if (a[sortBy] > b[sortBy]) return 1;
-        return 0;
-      };
-      // Sorting data using the comparison function
-      courseData = courseData.sort(compareFunction);
+      query = query.sort(sortBy); // sort() is a mongoose sorting query method
     }
+
+    const courseData = await query;
     
     
     // let courseData = await COURSE.find(requestObject.query) // when we pass query strings which those fields doesnot present in course object then it will not work.
-    
+
     responseObject.status(200).send(courseData)
   } catch (error) {
     console.log(error.message);
