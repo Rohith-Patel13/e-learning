@@ -1,10 +1,17 @@
 const Enrollment = require('../models/enrollment');
+const COURSE = require("../models/courses");
+const User = require('../models/users');
 
+
+const sendEmailId = require("../utils/sendEmail");
 
 // Course Enrollment
 exports.enrollCourse = async (requestObject, responseObject) => {
   try {
     const { userId, courseId } = requestObject.body;
+
+    const enrolledCourse = await COURSE.findById(courseId)
+    const enrolledUser = await User.findById(userId)
 
     // Check if the user is already enrolled in the course
     const existingEnrollment = await Enrollment.findOne({ userId, courseId });
@@ -14,6 +21,13 @@ exports.enrollCourse = async (requestObject, responseObject) => {
 
     // Create new enrollment
     const enrollment = await Enrollment.create({ userId, courseId });
+
+    if(enrollment){
+      
+      const subject = `Enrolled ${enrolledCourse.title} Course Successfully`
+      const text=`Thankyou for enrolling the ${enrolledCourse.title} course, You can now ${enrolledCourse.description}`
+      await sendEmailId(enrolledUser.email,subject,text)
+    }
     
 
     responseObject.status(201).send({ message: 'Course enrolled successfully' });
