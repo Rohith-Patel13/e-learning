@@ -16,7 +16,7 @@ npm install
 touch .env
 ```
 
-# Add below code in .env file
+# Add below code in .env file  and also replace some fields
 ```sh
 MONGODB_URI = mongodb+srv://<username>:<password>@cluster0.vbr0tsa.mongodb.net/<databse_name>
 
